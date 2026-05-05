@@ -22,21 +22,41 @@ function Signup() {
   };
 
   return (
-    <div style={{ maxWidth: "400px", margin: "100px auto", padding: "2rem", border: "1px solid #ddd", borderRadius: "8px" }}>
-      <h2>Sign Up</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input name="name" placeholder="Name" onChange={handleChange} required
-          style={{ width: "100%", padding: "8px", marginBottom: "10px" }} />
-        <input name="email" type="email" placeholder="Email" onChange={handleChange} required
-          style={{ width: "100%", padding: "8px", marginBottom: "10px" }} />
-        <input name="password" type="password" placeholder="Password" onChange={handleChange} required
-          style={{ width: "100%", padding: "8px", marginBottom: "10px" }} />
-        <button type="submit" style={{ width: "100%", padding: "10px", background: "#4f46e5", color: "white", border: "none", borderRadius: "6px", cursor: "pointer" }}>
-          Sign Up
-        </button>
-      </form>
-      <p style={{ marginTop: "1rem" }}>Already have an account? <Link to="/login">Login</Link></p>
+    <div style={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center", background: "#0f1117" }}>
+      <div style={{ width: "100%", maxWidth: "420px", background: "#1a1d27", borderRadius: "16px", padding: "2.5rem", boxShadow: "0 0 40px rgba(34,197,94,0.1)", border: "1px solid #2d2f3e" }}>
+        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+          <div style={{ fontSize: "2.5rem" }}>🚀</div>
+          <h2 style={{ fontSize: "1.8rem", fontWeight: "700", color: "#22c55e", marginTop: "0.5rem" }}>Create Account</h2>
+          <p style={{ color: "#6b7280", marginTop: "0.3rem" }}>Join Team Task Manager</p>
+        </div>
+        {error && (
+          <div style={{ background: "#2d1b1b", border: "1px solid #ef4444", color: "#ef4444", padding: "0.75rem", borderRadius: "8px", marginBottom: "1rem", fontSize: "0.9rem" }}>
+            {error}
+          </div>
+        )}
+        <form onSubmit={handleSubmit}>
+          {["name", "email", "password"].map((field) => (
+            <div key={field} style={{ marginBottom: "1rem" }}>
+              <label style={{ display: "block", marginBottom: "0.4rem", color: "#9ca3af", fontSize: "0.85rem", textTransform: "capitalize" }}>{field}</label>
+              <input
+                name={field}
+                type={field === "password" ? "password" : field === "email" ? "email" : "text"}
+                placeholder={`Enter your ${field}`}
+                onChange={handleChange}
+                required
+                style={{ width: "100%", padding: "0.75rem 1rem", background: "#0f1117", border: "1px solid #2d2f3e", borderRadius: "8px", color: "#e2e8f0", outline: "none", fontSize: "0.95rem" }}
+              />
+            </div>
+          ))}
+          <button type="submit" style={{ width: "100%", padding: "0.85rem", background: "linear-gradient(135deg, #22c55e, #16a34a)", color: "white", border: "none", borderRadius: "8px", fontWeight: "600", fontSize: "1rem", cursor: "pointer", marginTop: "0.5rem", letterSpacing: "0.5px" }}>
+            Sign Up
+          </button>
+        </form>
+        <p style={{ textAlign: "center", marginTop: "1.5rem", color: "#6b7280", fontSize: "0.9rem" }}>
+          Already have an account?{" "}
+          <Link to="/login" style={{ color: "#22c55e", textDecoration: "none", fontWeight: "600" }}>Login</Link>
+        </p>
+      </div>
     </div>
   );
 }
