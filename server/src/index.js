@@ -2,23 +2,30 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import authRoutes from "./routes/auth.js";
-import projectRoutes from "./routes/projects.js"
+import projectRoutes from "./routes/projects.js";
 import taskRoutes from "./routes/tasks.js";
-import auth from "./middleware/auth.js";
+import prisma from "./prisma.js";
+
 dotenv.config();
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "https://determined-motivation-production-a32e.up.railway.app",
+  credentials: true
+}));
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("API Running");
 });
 
-app.get("/api/dashboard", auth, async (req, res) => {
+app.use("/api/auth", authRoutes);
+app.use("/api/projects", projectRoutes);
+app.use("/api/tasks", taskRoutes);
+
+app.get("/api/dashboard", async (req, res) => {
   try {
-    const { PrismaClient } = await import("@prisma/client");
     const total = await prisma.task.count();
     const completed = await prisma.task.count({ where: { status: "DONE" } });
     const overdue = await prisma.task.count({
@@ -29,10 +36,6 @@ app.get("/api/dashboard", auth, async (req, res) => {
     res.status(500).json({ message: "Server error" });
   }
 });
-
-app.use("/api/auth", authRoutes);
-app.use("/api/projects", projectRoutes);
-app.use("/api/tasks", taskRoutes);
 
 const PORT = process.env.PORT || 5000;
 
