@@ -11,8 +11,8 @@ dotenv.config();
 const app = express();
 
 app.use(cors({
-  origin: "https://determined-motivation-production-a32e.up.railway.app",
-  credentials: true
+  origin: "*",
+  credentials: false
 }));
 app.use(express.json());
 
